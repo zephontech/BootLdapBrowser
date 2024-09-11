@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<th:block layout:insert="~{fragments/htmlhead}"/>
+<body>
+    <th:block layout:replace="~{fragments/navigation}"/>
+    <div class="container-fluid">
+        <th:block layout:insert="~{fragments/pagetitle}"/>
+        <th:block layout:fragment="content"/>
+    </div>
+    <th:block layout:fragment="body_end"/>
+    <th:block layout:insert="~{fragments/footer}"/>
+    <th:block layout:replace="~{fragments/body_scripts :: end}"/>
+    <th:block layout:fragment="pagescripts"/>
+</body>
+</html>

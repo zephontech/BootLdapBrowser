@@ -1,0 +1,73 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="LDAP Search">
+
+    <th:block layout:fragment="content">
+        <div class="container">
+            <div class="row justify-content-center" style="margin-top: 3rem">
+                <form method="post" action="/LDAP/runsearch" th:object="${ldapSearch}">
+                    <table class="table table-hover table-borderless">
+                        <tbody>
+                            <tr>
+                                <td style="width:16ch">
+                                    <label class="fw-bold col-form-label">Query</label>
+                                </td>
+                                <td>
+                                    <input class="form-control" th:field="*{searchQuery}"
+                                           th:classappend="${#fields.hasErrors('searchQuery') ? 'is-invalid' : ''}"/>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('searchQuery')}">
+                                        <span class="d-block" th:errors="${ldapSearch.searchQuery}"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex">
+                        <table>
+                            <tr>
+                                <td><button type="submit" class="btn btn-primary">Run Search</button></td>
+                                <td><button type="submit" class="btn btn-primary" formaction="/LDAP/search">Reset</button></td>
+                                <td><button class="btn btn-primary" onclick="history.back()">Go Back</button></td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="container">
+                <table class="table table-hover table-borderless">
+                    <tbody>
+                        <tr th:each="map : ${ldapSearch.dns}">
+                            <td>
+                               <form action="/LDAP/clickdn" method="post" th:object="${ldapSearch}">
+                                 <input type="hidden" name="dn" th:value="${map.get('distinguishedname')}"/>
+                                 <input type="hidden" name="cn" th:value="${map.get('cn')}"/>
+                                 <button type="submit" class="dropdown-item" th:text ="${map.get('distinguishedname')}"></button>
+                               </form>
+                            </td>
+                            <td>
+                               <form action="/LDAP/clickcn" method="post" th:object="${ldapSearch}">
+                                 <input type="hidden" name="cn" th:value="${map.get('cn')}"/>
+                                 <button type="submit" class="dropdown-item" th:text ="${map.get('cn')}"></button>
+                               </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container">
+                <table class="table table-hover table-borderless">
+                    <tbody>
+                        <tr th:each="key : ${ldapSearch.record.keySet()}">
+                            <td th:text ="${key}" ></td>
+                            <td th:text ="${ldapSearch.record.get(key)}" ></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block>
+</html>

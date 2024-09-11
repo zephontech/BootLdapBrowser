@@ -1,0 +1,14 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{layout}"
+      with:title="LDAP">
+    
+    <th:block layout:fragment="content">
+        <div class="container">
+            <form method="post" action="LDAP/search">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </th:block>
